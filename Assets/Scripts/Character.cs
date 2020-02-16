@@ -13,14 +13,12 @@ public class Character : MonoBehaviour
         Attack,
         BeginShoot,
         Shoot,
-        Death
     }
 
     public enum Weapon
     {
         Pistol,
         Bat,
-        Сlaws
     }
 
     public float runSpeed;
@@ -43,10 +41,6 @@ public class Character : MonoBehaviour
     [ContextMenu("Attack")]
     void AttackEnemy()
     {
-        if (target.GetComponent<Character>().state == State.Death || state == State.Death)
-        {
-            return;
-        }
         switch (weapon) {
             case Weapon.Bat:
                 state = State.RunningToEnemy;
@@ -54,10 +48,6 @@ public class Character : MonoBehaviour
 
             case Weapon.Pistol:
                 state = State.BeginShoot;
-                break;
-            
-            case Weapon.Сlaws:
-                state = State.RunningToEnemy;
                 break;
         }
     }
@@ -90,20 +80,12 @@ public class Character : MonoBehaviour
 
             case State.BeginAttack:
                 animator.SetFloat("speed", 0.0f);
-                if (weapon == Weapon.Сlaws)
-                {
-                    animator.SetTrigger("attackz");
-                }
-                else if (weapon == Weapon.Bat)
-                {
-                    animator.SetTrigger("attack");
-                }
+                animator.SetTrigger("attack");
                 state = State.Attack;
                 break;
 
             case State.Attack:
                 animator.SetFloat("speed", 0.0f);
-                KillTarget();
                 break;
 
             case State.BeginShoot:
@@ -114,23 +96,8 @@ public class Character : MonoBehaviour
 
             case State.Shoot:
                 animator.SetFloat("speed", 0.0f);
-                KillTarget();
-                break;
-            
-            case State.Death:
-                animator.SetTrigger("death");
                 break;
         }
-    }
-
-    private void Death()
-    {
-        state = State.Death;
-    }
-
-    void KillTarget()
-    {
-        target.GetComponent<Character>().Death();
     }
 
     bool RunTowards(Vector3 targetPosition, float distanceFromTarget)
