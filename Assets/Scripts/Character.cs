@@ -13,18 +13,21 @@ public class Character : MonoBehaviour
         Attack,
         BeginShoot,
         Shoot,
+        Dead,
     }
 
     public enum Weapon
     {
         Pistol,
         Bat,
+        Fist,
     }
 
     public float runSpeed;
     public float distanceFromEnemy;
-    public Transform target;
+    public Character target;
     public Weapon weapon;
+    public float damage;
     Animator animator;
     Vector3 originalPosition;
     Quaternion originalRotation;
@@ -38,11 +41,14 @@ public class Character : MonoBehaviour
         originalRotation = transform.rotation;
     }
 
-    [ContextMenu("Attack")]
-    void AttackEnemy()
+    public void AttackEnemy()
     {
+        if (state != State.Idle || target.state == State.Dead)
+            return;
+
         switch (weapon) {
             case Weapon.Bat:
+            case Weapon.Fist:
                 state = State.RunningToEnemy;
                 break;
 
@@ -50,6 +56,16 @@ public class Character : MonoBehaviour
                 state = State.BeginShoot;
                 break;
         }
+    }
+
+    public bool IsIdle()
+    {
+        return state == State.Idle;
+    }
+
+    public bool IsDead()
+    {
+        return state == State.Dead;
     }
 
     public void SetState(State newState)
@@ -68,7 +84,7 @@ public class Character : MonoBehaviour
 
             case State.RunningToEnemy:
                 animator.SetFloat("speed", runSpeed);
-                if (RunTowards(target.position, distanceFromEnemy))
+                if (RunTowards(target.transform.position, distanceFromEnemy))
                     state = State.BeginAttack;
                 break;
 
@@ -80,7 +96,10 @@ public class Character : MonoBehaviour
 
             case State.BeginAttack:
                 animator.SetFloat("speed", 0.0f);
-                animator.SetTrigger("attack");
+                switch (weapon) {
+                    case Weapon.Bat: animator.SetTrigger("attack"); break;
+                    case Weapon.Fist: animator.SetTrigger("fistAttack"); break;
+                }
                 state = State.Attack;
                 break;
 
@@ -96,6 +115,9 @@ public class Character : MonoBehaviour
 
             case State.Shoot:
                 animator.SetFloat("speed", 0.0f);
+                break;
+
+            case State.Dead:
                 break;
         }
     }
@@ -117,5 +139,21 @@ public class Character : MonoBehaviour
 
         transform.position = targetPosition;
         return true;
+    }
+
+    public void Die()
+    {
+        animator.SetTrigger("died");
+        SetState(State.Dead);
+    }
+
+    public void DoDamageToTarget()
+    {
+        Health health = target.GetComponent<Health>();
+        if (health != null) {
+            health.ApplyDamage(damage);
+            if (health.current <= 0.0f)
+                target.Die();
+        }
     }
 }
