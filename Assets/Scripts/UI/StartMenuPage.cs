@@ -3,17 +3,16 @@ using UnityEngine.UI;
 
 public class StartMenuPage : MonoBehaviour
 {
-    public string BattleSceneName;
     public Button PlayButton;
-    public LoadingLogicPage LoadingLogic;
+    public LevelSelectPage LevelSelectPage;
 
     private void Awake()
     {
-        PlayButton.onClick.AddListener(PlayGame);
+        PlayButton.onClick.AddListener(OpenLevelSelect);
     }
 
-    private void PlayGame()
+    private void OpenLevelSelect()
     {
-        LoadingLogic.LoadScene(BattleSceneName);
+        LevelSelectPage.ShowLevelSelect();
     }
 }

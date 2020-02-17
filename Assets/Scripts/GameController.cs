@@ -8,6 +8,7 @@ public class GameController : MonoBehaviour
     public Character[] enemyCharacters;
     Character currentTarget;
     bool waitingPlayerInput;
+    public EndGamePage EndGamePage;
 
     // Start is called before the first frame update
     void Start()
@@ -62,12 +63,12 @@ public class GameController : MonoBehaviour
 
     void PlayerWon()
     {
-        Debug.Log("Player won");
+        EndGamePage.ShowEndGamePage("Player won");
     }
 
     void PlayerLost()
     {
-        Debug.Log("Player lost");
+        EndGamePage.ShowEndGamePage("Player lost");
     }
 
     Character FirstAliveCharacter(Character[] characters)
