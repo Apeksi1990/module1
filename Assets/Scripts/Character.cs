@@ -149,6 +149,12 @@ public class Character : MonoBehaviour
 
     public void DoDamageToTarget()
     {
+        HitEffectAnimation hitEffect = target.GetComponent<HitEffectAnimation>();
+        hitEffect.PlayEffect();
+
+        HitSoundPlayer hitSoundPlayer = target.GetComponent<HitSoundPlayer>();
+        hitSoundPlayer.Play();
+
         Health health = target.GetComponent<Health>();
         if (health != null) {
             health.ApplyDamage(damage);
