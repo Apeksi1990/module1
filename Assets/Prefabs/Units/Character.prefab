@@ -293,6 +293,8 @@ GameObject:
   - component: {fileID: 2484466360353980477}
   - component: {fileID: 2503138705907180624}
   - component: {fileID: 3655509730440178909}
+  - component: {fileID: 5095797353073257671}
+  - component: {fileID: 8523043893523786157}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -385,7 +387,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d13b6b5dbc3678a42952752eb9938794, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HitClip: {fileID: 8300000, guid: 45443a33689f4f04c804293db72b978c, type: 3}
+  StandartHit: {fileID: 8300000, guid: 45443a33689f4f04c804293db72b978c, type: 3}
+  ShootHit: {fileID: 8300000, guid: ae63fc2598dac794f8afa2b355992339, type: 3}
+  HandHit: {fileID: 8300000, guid: 65e955753ec98f048a8edac491403be9, type: 3}
+--- !u!114 &5095797353073257671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8005653227702665060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cd3799e3b204444286ecef2d6ea9794, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TakeDamageSound:
+  - {fileID: 8300000, guid: 4e5603af51649224db3b505842720b6a, type: 3}
+  - {fileID: 8300000, guid: 20b377534885f8a4f8ef588309f51620, type: 3}
+  DieSound:
+  - {fileID: 8300000, guid: 6789299ea9ce460479ee356feb633e6a, type: 3}
+  - {fileID: 8300000, guid: ef38b73935dc02448aea06e44fb827ad, type: 3}
+  - {fileID: 8300000, guid: 7e6c5c4add637db46b23219048b77bec, type: 3}
+--- !u!114 &8523043893523786157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8005653227702665060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 913fc41a21f27f24aa2bb27ec03aed0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StepsSound:
+  - {fileID: 8300000, guid: 72b5e1688293a10418f00e553f379bfe, type: 3}
+  - {fileID: 8300000, guid: 7ac2f05b18cb7304c87334b21c05024b, type: 3}
 --- !u!1001 &1514452082050995385
 PrefabInstance:
   m_ObjectHideFlags: 0

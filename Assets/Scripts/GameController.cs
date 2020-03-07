@@ -8,11 +8,15 @@ public class GameController : MonoBehaviour
     public Character[] enemyCharacters;
     Character currentTarget;
     bool waitingPlayerInput;
+    private EndGameSoundPlayer endGameSoundPlayer;
+    private EndGameAnimation endGameAnimation;
 
     // Start is called before the first frame update
     void Start()
     {
         StartCoroutine(GameLoop());
+        endGameSoundPlayer = GetComponent<EndGameSoundPlayer>();
+        endGameAnimation = GetComponent<EndGameAnimation>();
     }
 
     [ContextMenu("Player Move")]
@@ -63,11 +67,15 @@ public class GameController : MonoBehaviour
     void PlayerWon()
     {
         Debug.Log("Player won");
+        endGameSoundPlayer.PlaySound(true);
+        endGameAnimation.ShowEndGameText("Win");
     }
 
     void PlayerLost()
     {
         Debug.Log("Player lost");
+        endGameSoundPlayer.PlaySound(false);
+        endGameAnimation.ShowEndGameText("Loss");
     }
 
     Character FirstAliveCharacter(Character[] characters)

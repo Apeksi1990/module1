@@ -24,11 +24,17 @@ public class CharacterAnimationEvents : MonoBehaviour
 
     void Shoot()
     {
+        character.ShootSmokeEffect();
         character.DoDamageToTarget();
     }
 
     void ShootEnd()
     {
         character.SetState(Character.State.Idle);
+    }
+
+    void Step()
+    {
+        character.StepFoot();
     }
 }

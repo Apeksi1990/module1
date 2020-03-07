@@ -33,12 +33,19 @@ public class Character : MonoBehaviour
     Quaternion originalRotation;
     State state = State.Idle;
 
+    private HitSoundPlayer hitSoundPlayer;
+    private TakeDamagePlayer takeDamagePlayer;
+    private FootStepSoundPlayer footStepSoundPlayer;
+
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponentInChildren<Animator>();
         originalPosition = transform.position;
         originalRotation = transform.rotation;
+        hitSoundPlayer = GetComponent<HitSoundPlayer>();
+        takeDamagePlayer = GetComponent<TakeDamagePlayer>();
+        footStepSoundPlayer = GetComponent<FootStepSoundPlayer>();
     }
 
     public void AttackEnemy()
@@ -149,17 +156,52 @@ public class Character : MonoBehaviour
 
     public void DoDamageToTarget()
     {
+        HitSound();
         HitEffectAnimation hitEffect = target.GetComponent<HitEffectAnimation>();
         hitEffect.PlayEffect();
-
-        HitSoundPlayer hitSoundPlayer = target.GetComponent<HitSoundPlayer>();
-        hitSoundPlayer.Play();
 
         Health health = target.GetComponent<Health>();
         if (health != null) {
             health.ApplyDamage(damage);
             if (health.current <= 0.0f)
+            {
+                target.takeDamagePlayer.DiePlay();
                 target.Die();
+            }
+            else
+            {
+                target.takeDamagePlayer.TakeDamagePlay();
+            }
+
         }
+    }
+
+    public void ShootSmokeEffect()
+    {
+        PistolSmokeEffect pistolSmokeEffect = GetComponent<PistolSmokeEffect>();
+        pistolSmokeEffect.PlayEffect();
+    }
+
+    public void HitSound()
+    {
+        switch (weapon)
+        {
+            case Weapon.Bat:
+                hitSoundPlayer.StandartHitPlay();
+                break;
+
+            case Weapon.Fist:
+                hitSoundPlayer.HandHitPlay();
+                break;
+
+            case Weapon.Pistol:
+                hitSoundPlayer.ShootHitPlay();
+                break;
+        }
+    }
+
+    public void StepFoot()
+    {
+        footStepSoundPlayer.StepPlay();
     }
 }
