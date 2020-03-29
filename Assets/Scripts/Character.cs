@@ -27,11 +27,11 @@ public class Character : MonoBehaviour
     public float distanceFromEnemy;
     public Character target;
     public Weapon weapon;
-    public float damage;
     Animator animator;
     Vector3 originalPosition;
     Quaternion originalRotation;
     State state = State.Idle;
+    public CharacterData CharacterData;
 
     // Start is called before the first frame update
     void Start()
@@ -155,10 +155,10 @@ public class Character : MonoBehaviour
         HitSoundPlayer hitSoundPlayer = target.GetComponent<HitSoundPlayer>();
         hitSoundPlayer.Play();
 
-        Health health = target.GetComponent<Health>();
-        if (health != null) {
-            health.ApplyDamage(damage);
-            if (health.current <= 0.0f)
+        CharacterData targetData = target.GetComponent<Character>().CharacterData;
+        if (targetData != null) {
+            targetData.ApplyDamage(CharacterData.Damage);
+            if (targetData.Health <= 0.0f)
                 target.Die();
         }
     }
